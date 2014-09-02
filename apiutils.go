@@ -27,3 +27,22 @@ func RequireParams(form url.Values, params []string) error {
 	}
 	return nil
 }
+
+type ErrorResponse struct {
+	Status  int    `json:"status"`
+	Message string `json:"message"`
+	Error   string `json:"error"`
+}
+
+func NewErrorResponse(status int, message string) ErrorResponse {
+	return ErrorResponse{
+		Status:  status,
+		Message: message,
+		Error:   http.StatusText(status),
+	}
+}
+
+func ServeError(w http.ResponseWriter, errRes ErrorResponse) {
+	w.WriteHeader(errRes.Status)
+	ServeJson(w, errRes)
+}
