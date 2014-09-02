@@ -6,7 +6,7 @@ Helpful API handling utilities.
 
 ## Getting Started
 
-  go get github.com/jixwanwang/apiutils
+  	go get github.com/jixwanwang/apiutils
 
 ## Example Usage:
 
