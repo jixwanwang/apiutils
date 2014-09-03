@@ -44,5 +44,5 @@ func ServeJSON(w http.ResponseWriter, v interface{}) {
 
 func ServeError(w http.ResponseWriter, errRes ErrorResponse) {
 	w.WriteHeader(errRes.Status)
-	ServeJson(w, errRes)
+	ServeJSON(w, errRes)
 }
