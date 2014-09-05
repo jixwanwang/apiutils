@@ -17,6 +17,19 @@ func RequireParams(form url.Values, params []string) error {
 	return nil
 }
 
+func RequireNumParams(form url.Values, params []string, num int) error {
+	count := 0
+	for _, param := range params {
+		if len(form[param]) > 0 {
+			count++
+		}
+	}
+	if count < num {
+		return fmt.Errorf("Requires %v params from %v, only found %v of them", num, params, count)
+	}
+	return nil
+}
+
 type ErrorResponse struct {
 	Status  int    `json:"status"`
 	Message string `json:"message"`
