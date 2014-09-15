@@ -17,15 +17,11 @@ func RequireParams(form url.Values, params []string) error {
 	return nil
 }
 
-func RequireNumParams(form url.Values, params []string, num int) error {
-	count := 0
+func RequireFormParams(r *http.Request, params []string) error {
 	for _, param := range params {
-		if len(form[param]) > 0 {
-			count++
+		if len(r.FormValue(param)) == 0 {
+			return fmt.Errorf("Missing param: %s", param)
 		}
-	}
-	if count < num {
-		return fmt.Errorf("Requires %v params from %v, only found %v of them", num, params, count)
 	}
 	return nil
 }
