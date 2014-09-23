@@ -17,6 +17,29 @@ func RequireParams(form url.Values, params []string) error {
 	return nil
 }
 
+// ReadParams reads in parameters from the request, using the content type.
+func ReadParams(r *http.Request) (map[string]interface{}, error) {
+	params := make(map[string]interface{})
+
+	if r.Header.Get("Content-Type") == "application/json" {
+		decoder := json.NewDecoder(r.Body)
+		return params, decoder.Decode(&params)
+	} else {
+		r.ParseForm()
+
+		if r.Method == "GET" {
+			for k, v := range r.Form {
+				params[k] = v
+			}
+		} else {
+			for k, v := range r.PostForm {
+				params[k] = v
+			}
+		}
+		return params, nil
+	}
+}
+
 func RequireFormParams(r *http.Request, params []string) error {
 	for _, param := range params {
 		if len(r.FormValue(param)) == 0 {
