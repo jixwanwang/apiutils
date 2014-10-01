@@ -27,15 +27,11 @@ func ReadParams(r *http.Request) (map[string]interface{}, error) {
 	} else {
 		r.ParseForm()
 
-		if r.Method == "GET" {
-			for k, v := range r.Form {
-				params[k] = v
-			}
-		} else {
-			for k, v := range r.PostForm {
-				params[k] = v
-			}
+		// Take first argument, equivalent to Get()
+		for k, v := range r.Form {
+			params[k] = v[0]
 		}
+
 		return params, nil
 	}
 }
