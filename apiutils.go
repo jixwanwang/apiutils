@@ -46,16 +46,20 @@ func RequireFormParams(r *http.Request, params []string) error {
 }
 
 type ErrorResponse struct {
-	Status  int    `json:"status"`
-	Message string `json:"message"`
-	Error   string `json:"error"`
+	Status     int    `json:"status"`
+	Message    string `json:"message"`
+	StatusText string `json:"error"`
+}
+
+func (T ErrorResponse) Error() string {
+	return fmt.Sprintf("Error (%d): %s", T.Status, T.Message)
 }
 
 func NewErrorResponse(status int, message string) ErrorResponse {
 	return ErrorResponse{
-		Status:  status,
-		Message: message,
-		Error:   http.StatusText(status),
+		Status:     status,
+		Message:    message,
+		StatusText: http.StatusText(status),
 	}
 }
 
